@@ -15,19 +15,30 @@ public class FloorCeilBinarySearchImpl implements FloorCeil {
 
 	@Override
 	public Integer floor(Integer[] array, Integer x) {
-		return array[binarySearchFloor(array, x, 0, array.length-1)];
+		Integer feedback = null;
+
+		if (array != null && array.length != 0 && array[0] <= x){
+			feedback = array[binarySearchFloor(array, x, 0, array.length-1)];
+		}
+		
+		return feedback;
 	}
 
 	@Override
 	public Integer ceil(Integer[] array, Integer x) {
-		// TODO implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");
+		Integer feedback = null;
+
+		if (array != null && array.length != 0 && array[array.length-1] >= x){
+			feedback = array[binarySearchCeil(array, x, 0, array.length-1)];
+		}
+		
+		return feedback;
 	}
 
 	private Integer binarySearchFloor(Integer[] array, Integer x, Integer left, Integer right){
 		Integer floorInteger = left;
 		Integer middle, a;
-													
+											
 		if (left < right){                                                    
 			middle = (left + right)/2; 
 			floorInteger = middle;     
@@ -35,17 +46,18 @@ public class FloorCeilBinarySearchImpl implements FloorCeil {
 			if (array[middle] < x){
 
 				a = binarySearchFloor(array, x, middle + 1, right);                            
-				if (Math.abs(x - array[a]) < Math.abs(x - array[floorInteger])){ 
+				if (array[a] <= x && Math.abs(x - array[a]) < Math.abs(x - array[floorInteger])){
 					floorInteger = a;
-				}
+				}                 
 
 			} else if (array[middle] > x) {
 
-				a = binarySearchFloor(array, x, left, middle - 1);  
+				a = binarySearchFloor(array, x, left, middle - 1);       
 				floorInteger = a;
 			}
 		}
-		 return floorInteger;
+
+		return floorInteger;
 	}
 
 	private Integer binarySearchCeil(Integer[] array, Integer x, Integer left, Integer right){
@@ -54,14 +66,14 @@ public class FloorCeilBinarySearchImpl implements FloorCeil {
 													
 		if (left < right){                                                    
 			middle = (left + right)/2; 
-			floorInteger = middle;     
+			floorInteger = middle;           
                                                         
 			if (array[middle] < x){
 				floorInteger = binarySearchCeil(array, x, middle + 1, right);  
 
 			} else if (array[middle] > x) {
 				a = binarySearchCeil(array, x, left, middle -1);                            
-				if (Math.abs(x - array[a]) < Math.abs(x - array[floorInteger])){ 
+				if (array[a] >= x && Math.abs(x - array[a]) < Math.abs(x - array[floorInteger])){ 
 					floorInteger = a;
 				}
 			}
